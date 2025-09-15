@@ -36,9 +36,45 @@ Ejecución del Proyecto
 ----------------------
 1. Clonar el repositorio:
    git clone https://github.com/AnthonyDavilaP/SistemaTicketsPic.git
-2. Configurar la base de datos en SQL Server ejecutando el script incluido en la carpeta /Database.
-3. Abrir el proyecto en Visual Studio.
-4. Compilar y ejecutar.
+2. Configurar la base de datos en SQL Server ejecutando el script:
+-- ========================================
+-- Creación de la base de datos
+-- ========================================
+CREATE DATABASE ITI;
+GO
+
+USE ITI;
+GO
+
+-- ========================================
+-- Tabla Usuarios
+-- ========================================
+CREATE TABLE Usuarios (
+    IdUsuario INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre NVARCHAR(MAX) NULL,
+    Correo NVARCHAR(MAX) NULL,
+    Cargo NVARCHAR(MAX) NULL,
+    Discriminator NVARCHAR(128) NULL,
+    Clave NVARCHAR(255) NULL
+);
+
+-- ========================================
+-- Tabla Tickets
+-- ========================================
+CREATE TABLE Tickets (
+    IdTicket INT IDENTITY(1,1) PRIMARY KEY,
+    Descripcion NVARCHAR(MAX) NULL,
+    FechaCreacion DATETIME NOT NULL DEFAULT GETDATE(),
+    Estado NVARCHAR(MAX) NULL,
+    Prioridad INT NOT NULL,
+    TecnicoId INT NULL,
+    UsuarioId INT NOT NULL,
+
+    CONSTRAINT FK_Tickets_Usuarios FOREIGN KEY (UsuarioId) REFERENCES Usuarios(IdUsuario),
+    CONSTRAINT FK_Tickets_Tecnico FOREIGN KEY (TecnicoId) REFERENCES Usuarios(IdUsuario)
+);
+4. Abrir el proyecto en Visual Studio.
+5. Compilar y ejecutar.
 
 Autor
 -----
