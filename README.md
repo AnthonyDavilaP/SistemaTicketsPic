@@ -87,6 +87,9 @@ El sistema está basado en **programación orientada a objetos (POO)**, con enti
 
 3. **Abrir el proyecto en Visual Studio.**  
 4. **Compilar y ejecutar.**
+5. **Al abrir por primera vez, se crea un usuario por defecto**
+   Correo: admin@iti.edu.ec
+   Contraseña: 1234
 
 ---
 
