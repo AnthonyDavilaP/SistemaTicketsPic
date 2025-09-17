@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace SistemaTicketsPic.Models
 {
+    // Mapea la clase a la tabla Usuarios en la base de datos
     [Table("Usuarios")]
     public class Usuario
     {
@@ -17,7 +18,7 @@ namespace SistemaTicketsPic.Models
         public string Correo { get; set; }
         public string Cargo { get; set; }
         public string Clave { get; set; }
-
+        // Relación uno a muchos, un usuario puede tener varios tickets
         public virtual ICollection<Ticket> Tickets { get; set; }
     }
 }

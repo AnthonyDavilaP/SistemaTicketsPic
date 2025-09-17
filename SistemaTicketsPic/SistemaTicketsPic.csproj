@@ -80,7 +80,6 @@
       <DependentUpon>202509142344063_Inicial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\AdministradorTecnico.cs" />
     <Compile Include="Models\Ticket.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Program.cs" />

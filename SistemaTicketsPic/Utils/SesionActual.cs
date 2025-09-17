@@ -8,6 +8,7 @@ namespace SistemaTicketsPic.Utils
 {
     internal class SesionActual
     {
+        // Propiedades estáticas para almacenar los datos del usuario logueado
         public static int IdUsuario { get; set; }
         public static string Nombre { get; set; } = string.Empty;
         public static string Correo { get; set; } = string.Empty;

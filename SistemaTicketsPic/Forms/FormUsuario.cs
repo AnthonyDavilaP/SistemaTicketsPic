@@ -23,6 +23,7 @@ namespace SistemaTicketsPic.Forms
 
         private void FormUsuario_Load(object sender, EventArgs e)
         {
+            // Configura combobox de cargos de usuarios
             var cargos = new[]
             {
                 new { Variable = "Usuario", Texto = "Usuario" },
@@ -32,8 +33,10 @@ namespace SistemaTicketsPic.Forms
             cmbCargo.DataSource = cargos;
             cmbCargo.ValueMember = "Variable";
             cmbCargo.DisplayMember = "Texto";
+            // Cargar datos de usuarios en el DataGridView
             CargarDatos();
         }
+        // Carga usuarios desde la base de datos al DataGridView
         private void CargarDatos()
         {
             using (var db = new AppDbContext())
@@ -45,17 +48,21 @@ namespace SistemaTicketsPic.Forms
             }
             dgvUsuarios.ClearSelection();
             _idSeleccionado = null;
+            dgvUsuarios.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
+        // Método que limpia los campos del formulario
         private void LimpiarFormulario()
         {
             txtNombre.Text = "";
             txtCorreo.Text = "";
             cmbCargo.SelectedIndex = 0;
+            txtClave.Text = "";
             errorProvider1.SetError(txtNombre, "");
             errorProvider1.SetError(txtCorreo, "");
             errorProvider1.SetError(cmbCargo, "");
             _idSeleccionado = null;
         }
+        // Método que valida que los campos obligatorios estén completos
         private bool ValidarFormulario()
         {
             bool ok = true;
@@ -82,16 +89,16 @@ namespace SistemaTicketsPic.Forms
 
             return ok;
         }
-
+        // Evento al hacer clic en Limpiar, vacía el formulario
         private void btnNuevo_Click(object sender, EventArgs e)
         {
             LimpiarFormulario();
             txtNombre.Focus();
         }
-
+        // Evento al hacer clic en Guardar, crea o actualiza un usuario
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (!ValidarFormulario()) return;
+            if (!ValidarFormulario()) return;// Validar campos obligatorios
 
             using (var db = new AppDbContext())
             {
@@ -102,12 +109,13 @@ namespace SistemaTicketsPic.Forms
                         Nombre = txtNombre.Text.Trim(),
                         Correo = txtCorreo.Text.Trim(),
                         Cargo = cmbCargo.SelectedValue?.ToString(),
-                        Clave = PasswordHasher.Hash(txtClave.Text.Trim())
+                        Clave = PasswordHasher.Hash(txtClave.Text.Trim()) // Encriptar contraseña
                     };
                     db.Usuarios.Add(usr);
                 }
                 else
                 {
+                    // Actualiza un  usuario existente
                     var usr = db.Usuarios.Find(_idSeleccionado.Value);
                     if (usr == null) return;
                     usr.Nombre = txtNombre.Text.Trim();
@@ -121,17 +129,24 @@ namespace SistemaTicketsPic.Forms
             CargarDatos();
             LimpiarFormulario();
         }
-
+        // Evento al hacer clic en Editar, modifica un usuario seleccionado
         private void btnEditar_Click(object sender, EventArgs e)
         {
-            if (_idSeleccionado == null)
+            using (var db = new AppDbContext())
             {
-                MessageBox.Show("Seleccione un usuario de la lista.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
+                var usr = db.Usuarios.Find(_idSeleccionado.Value);
+                if (usr == null) return;
+                usr.Nombre = txtNombre.Text.Trim();
+                usr.Correo = txtCorreo.Text.Trim();
+                usr.Cargo = cmbCargo.SelectedValue?.ToString();
+                usr.Clave = PasswordHasher.Hash(txtClave.Text.Trim());
+                db.SaveChanges();
             }
-            txtNombre.Focus();
+            CargarDatos();
+            MessageBox.Show("Usuario modificado exitosamente");
+            LimpiarFormulario();
         }
-
+        // Evento al hacer clic en Eliminar: borra el usuario seleccionado
         private void btnEliminar_Click(object sender, EventArgs e)
         {
             if (_idSeleccionado == null)
@@ -154,7 +169,7 @@ namespace SistemaTicketsPic.Forms
             CargarDatos();
             LimpiarFormulario();
         }
-
+        // Evento al seleccionar un usuario en el DataGridView
         private void dgvUsuarios_SelectionChanged(object sender, EventArgs e)
         {
             if (dgvUsuarios.CurrentRow == null || dgvUsuarios.CurrentRow.Index < 0)
@@ -166,7 +181,7 @@ namespace SistemaTicketsPic.Forms
             _idSeleccionado = (int?)row.Cells["IdUsuario"].Value;
             if (_idSeleccionado == null) return;
 
-
+            // Mostrar datos del usuario seleccionado en los campos
             txtNombre.Text = row.Cells["Nombre"].Value?.ToString() ?? "";
             txtCorreo.Text = row.Cells["Correo"].Value?.ToString() ?? "";
             cmbCargo.Text = row.Cells["Cargo"].Value?.ToString() ?? "";

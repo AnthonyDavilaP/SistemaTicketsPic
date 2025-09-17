@@ -14,6 +14,7 @@ namespace SistemaTicketsPic.Utils
         {
             if (password == null) throw new ArgumentNullException(nameof(password));
 
+            // Genera un hash seguro para la contraseña
             using (var rng = new RNGCryptoServiceProvider())
             {
                 var salt = new byte[16];
@@ -25,7 +26,7 @@ namespace SistemaTicketsPic.Utils
                 }
             }
         }
-
+        // Verifica si la contraseña coincide con el hash almacenado
         public static bool Verify(string password, string stored)
         {
             if (string.IsNullOrEmpty(stored) || password == null) return false;

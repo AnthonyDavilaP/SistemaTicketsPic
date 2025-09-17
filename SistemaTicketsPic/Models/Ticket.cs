@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace SistemaTicketsPic.Models
 {
+    // Mapea la clase a la tabla Tickets en la base de datos
     [Table("Tickets")]
     public class Ticket
     {
@@ -19,7 +20,7 @@ namespace SistemaTicketsPic.Models
         public int Prioridad { get; set; }
         public int? TecnicoId { get; set; }
 
-        [ForeignKey("Usuario")]
+        [ForeignKey("Usuario")]// Clave foránea hacia la tabla Usuario
         public int UsuarioId { get; set; }
         public virtual Usuario Usuario { get; set; }
     }

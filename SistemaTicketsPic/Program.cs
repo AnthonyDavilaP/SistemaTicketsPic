@@ -23,13 +23,14 @@ namespace SistemaTicketsPic
 
             using (var db = new AppDbContext())
             {
+                // Obtiene la conexión a la base de datos
                 var c = db.Database.Connection;
                 if (c.State == System.Data.ConnectionState.Closed) c.Open();
                 MessageBox.Show($"Servidor: {c.DataSource}\nBD: {c.Database}\nUsuarios: {db.Usuarios.Count()}");
 
                 db.Database.Initialize(false);
                 db.Database.Log = s => System.Diagnostics.Debug.WriteLine(s);
-
+                // Crea un usuario administrador por defecto si no hay usuarios
                 if (!db.Usuarios.Any())
                 {
                     db.Usuarios.Add(new Usuario
@@ -40,7 +41,8 @@ namespace SistemaTicketsPic
                     });
                     db.SaveChanges();
                 }
-            }          
+            }
+            // Inicia la aplicación mostrando el formulario de login
             Application.Run(new Forms.FormLogin()); ;
         }
     }

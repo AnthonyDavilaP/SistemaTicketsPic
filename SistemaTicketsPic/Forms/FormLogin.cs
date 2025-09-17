@@ -19,7 +19,7 @@ namespace SistemaTicketsPic.Forms
         {
             InitializeComponent();
         }
-
+        // Evento al hacer clic en el botón 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
             string correo = txtCorreo.Text.Trim();
@@ -54,13 +54,11 @@ namespace SistemaTicketsPic.Forms
                 FormTickets principal = new FormTickets();
                 principal.Show();
                 this.Hide();
-
             }
         }
-
         private void FormLogin_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Application.Exit();
+            Application.Exit();// Cerrar programa al salir
         }
     }
 }

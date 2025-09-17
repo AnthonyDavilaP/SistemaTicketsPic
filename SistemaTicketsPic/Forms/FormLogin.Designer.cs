@@ -89,7 +89,8 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "FormLogin";
-            this.Text = "Login";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Ingreso al Sistema";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormLogin_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
