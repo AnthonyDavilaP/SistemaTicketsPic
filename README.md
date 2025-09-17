@@ -50,10 +50,10 @@ El sistema está basado en **programación orientada a objetos (POO)**, con enti
    -- ========================================
    -- Creación de la base de datos
    -- ========================================
-   CREATE DATABASE ITI;
+   CREATE DATABASE PIC;
    GO
 
-   USE ITI;
+   USE PIC;
    GO
 
    -- ========================================
